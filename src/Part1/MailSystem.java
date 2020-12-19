@@ -23,7 +23,7 @@ public class MailSystem{
      */
     public Mailbox createUser(String username, String name, Timestamp birth_date){
         if (username == null || name == null || birth_date == null) return null;
-        if (username == "" || name == "") return null;
+        if (username.equals("") || name.equals("")) return null;
         if (mailboxes.containsKey(username)) return null;
         mailboxes.put(username, new Mailbox(store, username));
         users.put(username, new User(username, name, birth_date));
@@ -160,7 +160,7 @@ public class MailSystem{
     public User getUser (String username){
         return users.get(username);
     }
-
+    public Mailbox getMailbox (String username) { return mailboxes.get(username); }
     public MailStore getMailStore() {
         return store;
     }
