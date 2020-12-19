@@ -10,43 +10,14 @@ public class CLI {
     private static final MailSystem system = new MailSystem(new MailMem());
     private static User user = null;
 
-    /*public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }*/
-
     private static void printHeader(){
-        //clearScreen();
         if (user != null)
             System.out.println("State : logged  User : "+user.getUsername());
         else
             System.out.println("State : not logged");
         System.out.println("Enter comand:");
     }
-    /*private static int printLoginMenu(){
-        printHeader();
-        System.out.println("||  1. Login            ");
-        System.out.println("||  2. CreateUser       ");
-        System.out.println("||  3. Filter Messages  ");
-        int swValue = Keyin.inInt(" Select option: ");
-        while(swValue < 0 || swValue > 3){
-            System.out.println("Error, select option between 1 and 3");
-            swValue = Keyin.inInt(" Select option: ");
-        }
-        return swValue;
-    }
-    private static int printUserMenu(){
-        printHeader();
-        System.out.println("||  1. Login            ");
-        System.out.println("||  2. CreateUser       ");
-        System.out.println("||  3. Filter Messages  ");
-        int swValue = Keyin.inInt(" Select option: ");
-        while(swValue < 0 || swValue > 3){
-            System.out.println("Error, select option between 1 and 3");
-            swValue = Keyin.inInt(" Select option: ");
-        }
-        return swValue;
-    }*/
+
     private static void createUser (String[] args){
         if (args.length == 4 && user == null){
             try{
