@@ -5,13 +5,24 @@ import java.util.Scanner;
 
 public class CLI {
 
-    private Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
+    private static final MailSystem system = new MailSystem(new MailMem());
     private static User user = null;
 
-    private static void printHeader(){
+    /*public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }*/
 
+    private static void printHeader(){
+        //clearScreen();
+        if (user != null)
+            System.out.println("State : logged  User : "+user.getUsername());
+        else
+            System.out.println("State : not logged");
+        System.out.println("Enter comand:");
     }
-    private static int printLoginMenu(){
+    /*private static int printLoginMenu(){
         printHeader();
         System.out.println("||  1. Login            ");
         System.out.println("||  2. CreateUser       ");
@@ -34,36 +45,71 @@ public class CLI {
             swValue = Keyin.inInt(" Select option: ");
         }
         return swValue;
+    }*/
+    private static void createUser (String[] args){
+
+    }
+    private static void filter (String[] args){
+
+    }
+    private static void logas(String[] args){
+
+    }
+    private static void send(String[] args){
+
+    }
+    private static void update(){
+
+    }
+    private static void list (){
+
+    }
+    private static void sort (String[] args){
+
+    }
+
+    private static boolean comand(String[] args){
+        switch(args[0]){
+            case "/help":
+                System.out.println("Avalible comands are:");
+                System.out.println("/createuser string <username> string <name> string <birthdate> format yyyy/mm/dd hh:mm:ss : Create a new user as admin");
+                break;
+            case "/createuser":
+                createUser(args);
+                break;
+            case "/filter":
+                filter(args);
+                break;
+            case "/logas":
+                logas(args);
+                break;
+            case "/send":
+                send(args);
+                break;
+            case "/update":
+                if (args.length == 1 && user != null)
+                    update();
+                break;
+            case "/list":
+                if (args.length == 1 && user != null)
+                    list();
+                break;
+            case "/sort":
+                break;
+        }
+        return false;
     }
 
     public static void main(String[] args) throws IOException {
-        boolean end = false;
-
-        while (!end){
-            if (user == null){
-                switch(printLoginMenu()){
-                    case 1:
-                        System.out.println("login");
-                        break;
-                    case 2:
-                        System.out.println("create");
-                        break;
-                    case 3:
-                        System.out.println("filter messages");
-                        break;
-                }
-            }
-            else{
-                printLoginMenu();
-                switch()){
-                    case 1:
-                        System.out.println("login");
-                        break;
-                    case 2:
-                        System.out.println("create");
-                        break;
-                }
-            }
+        boolean exit = false;
+        String comand;
+        while (!exit){
+            printHeader();
+            System.out.printf(">>");
+            System.out.flush();
+            comand = sc.nextLine();
+            args = comand.split(" ");
+            exit = comand(args);
         }
     }
 

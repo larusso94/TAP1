@@ -1,18 +1,27 @@
 package Part1;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class MailMem implements MailStore{
-    private LinkedList <Message> messages;
+    private final Hashtable <String, ArrayList<Message>> messages;
 
     public MailMem (){
-        this.messages = new LinkedList<Message>();
+        this.messages = new Hashtable<>();
     }
 
     public void sendMail(Message message){
-        this.messages.add(message);
+
+        if (!this.messages.containsKey(message.getReciever())){
+            this.messages.put(message.getReciever(), new ArrayList<>());
+        }
+        this.messages.get(message.getReciever()).add(message);
     }
-    public LinkedList<Message> getMail(User user){
-        return new LinkedList<Message>();
+
+    public ArrayList<Message> getMail(String user){
+        if (messages.containsKey(user))
+            return messages.get(user);
+        else
+            return new ArrayList<>();
     }
 }

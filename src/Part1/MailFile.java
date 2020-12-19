@@ -1,13 +1,13 @@
 package Part1;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class MailFile implements MailStore{
 
     public void sendMail(Message message){
 
     }
-    public List<Message> getMail(User user){
+    public ArrayList<Message> getMail(String user){
         return null;
     }
 }
