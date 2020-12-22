@@ -1,7 +1,7 @@
 package Part1;
 
-import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class CLI {
@@ -28,15 +28,42 @@ public class CLI {
         }
     }
     private static void filter (String[] args){
+        if(args.length == 3){
+            try{
+                switch(args[1]){
+                    case "contains":
+                        //if (user!=null) system.getMessagesFiltered(Predicate<Message> m -> m)
+                        break;
+                    case "lessthan":
+                        break;
+                }
+            }catch(Exception e){
+                System.out.println("Wrong parameters");
+            }
+        }
 
     }
     private static void logas(String[] args){
         if (args.length == 2 && system.getUser(args[1])!= null ){
             user = system.getUser(args[1]);
+            System.out.println("Logged in successfully");
         }
     }
     private static void send(String[] args){
-
+        if (args.length >= 4 && user != null){
+            int i = 3;
+            String body = args[i];
+            while(true){
+                try{
+                    i++;
+                    body = body.concat(" ")+args[i];
+                }catch (Exception e){
+                    break;
+                }
+            }
+            system.getMailbox(user.getUsername()).sendMail(args[1], args[2], body);
+            System.out.println("Message sent");
+        }
     }
     private static void update(){
         System.out.println("Uptdating mail...");
@@ -47,7 +74,16 @@ public class CLI {
         system.getMailbox(user.getUsername()).getMessages().forEach(System.out::println);
     }
     private static void sort (String[] args){
-
+        if(args.length == 2 && user != null){
+            Mailbox mail = system.getMailbox(user.getUsername());
+            switch (args[1]) {
+                case "date" -> mail.setMessages(mail.getMailsSorted(Comparator.comparing(Message::getCreation)));
+                case "sender" -> mail.setMessages(mail.getMailsSorted(Comparator.comparing(Message::getSender)));
+                case "reciever" -> mail.setMessages(mail.getMailsSorted(Comparator.comparing(Message::getReciever)));
+                case "body" -> mail.setMessages(mail.getMailsSorted(Comparator.comparing(Message::getBody)));
+                case "subject" -> mail.setMessages(mail.getMailsSorted(Comparator.comparing(Message::getSubject)));
+            }
+        }
     }
 
     private static boolean comand(String[] args){
@@ -55,16 +91,16 @@ public class CLI {
             case "/help":
                 System.out.println("Avalible comands are:");
                 if (user == null){
-                    System.out.println("/createuser : string <username> string <name> string <birthdate> format yyyy-mm-dd : Create a new user as admin");
-                    System.out.println("/filter");
-                    System.out.println("/logas");
+                    System.out.println("/createuser <username> <name> <birthdate> format yyyy-mm-dd : Create a new user as admin");
+                    System.out.println("/filter : Filter at a system level arguments: contains <word> or lessthan <num>");
+                    System.out.println("/logas <username> Log in as a user. No passwords");
                 }
                 else {
-                    System.out.println("/send");
-                    System.out.println("/update");
-                    System.out.println("/list");
-                    System.out.println("/sort");
-                    System.out.println("/filter");
+                    System.out.println("/send <to> <subject> <body>");
+                    System.out.println("/update retrieve messages from the mail store");
+                    System.out.println("/list show messages sorted by sent time");
+                    System.out.println("/sort sort messages by preddefined comparators : dare, sender, reciever, vody, subject");
+                    System.out.println("/filter : Filter at a user level or user level if logged Arguments: - contains <word> - lessthan <num>");
                 }
                 break;
             case "/createuser":
@@ -88,6 +124,7 @@ public class CLI {
                     list();
                 break;
             case "/sort":
+                sort(args);
                 break;
             case "/logout":
                 if (args.length == 1 && user != null)
@@ -97,16 +134,15 @@ public class CLI {
         return false;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String args[]) {
         boolean exit = false;
         String comand;
         while (!exit){
             printHeader();
-            System.out.printf(">>");
+            System.out.print(">>");
             System.out.flush();
             comand = sc.nextLine();
-            args = comand.split(" ");
-            exit = comand(args);
+            exit = comand(comand.split(" "));
         }
     }
 

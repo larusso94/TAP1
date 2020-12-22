@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Mailbox implements Iterable<Message>{
     private final MailStore store;
     private final String user;
-    private final ArrayList<Message> messages;
+    private ArrayList<Message> messages;
 
     public Mailbox(MailStore message_store, String user) {
         this.store = message_store;
@@ -27,6 +27,8 @@ public class Mailbox implements Iterable<Message>{
     public ArrayList<Message> getMessages(){
         return this.messages;
     }
+
+    public void setMessages(ArrayList<Message> messages) { this.messages = messages; }
 
     public ArrayList<Message> getMailsFiltered(Predicate<Message> filter){ return (ArrayList<Message>) this.messages.stream().filter(filter).collect(Collectors.toList()); }
     public ArrayList<Message> getMailsSorted(Comparator<Message> comp){ return (ArrayList<Message>) this.messages.stream().sorted(comp).collect(Collectors.toList()); }
