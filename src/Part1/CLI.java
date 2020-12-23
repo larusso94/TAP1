@@ -3,6 +3,7 @@ package Part1;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class CLI {
 
@@ -30,12 +31,24 @@ public class CLI {
     private static void filter (String[] args){
         if(args.length == 3){
             try{
-                switch(args[1]){
-                    case "contains":
-                        //if (user!=null) system.getMessagesFiltered(Predicate<Message> m -> m)
-                        break;
-                    case "lessthan":
-                        break;
+                Predicate<Message> pred;
+                switch (args[1]) {
+                    case "contains" -> {
+                        pred = m -> m.contains(args[2]);
+                        if (user == null) {
+                            system.getMessagesFiltered(pred).forEach(System.out::println);
+                        } else {
+                            system.getMailbox(user.getUsername()).getMailsFiltered(pred).forEach(System.out::println);
+                        }
+                    }
+                    case "lessthan" -> {
+                        pred = m -> m.getBody().split(" ").length < Integer.decode(args[2]);
+                        if (user == null) {
+                            system.getMessagesFiltered(pred).forEach(System.out::println);
+                        } else {
+                            system.getMailbox(user.getUsername()).getMailsFiltered(pred).forEach(System.out::println);
+                        }
+                    }
                 }
             }catch(Exception e){
                 System.out.println("Wrong parameters");
@@ -71,7 +84,7 @@ public class CLI {
     }
     private static void list (){
         System.out.println("Mailbox content:");
-        system.getMailbox(user.getUsername()).getMessages().forEach(System.out::println);
+        system.getMailbox(user.getUsername()).getMailsSorted(Comparator.comparing(Message::getCreation)).forEach(System.out::println);
     }
     private static void sort (String[] args){
         if(args.length == 2 && user != null){
@@ -134,7 +147,7 @@ public class CLI {
         return false;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         boolean exit = false;
         String comand;
         while (!exit){

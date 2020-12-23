@@ -1,6 +1,7 @@
 package Part1;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class Message {
     private final String subject;
@@ -31,6 +32,11 @@ public class Message {
     }
     public Timestamp getCreation() {
         return creation;
+    }
+    public boolean contains(String word){
+        String[] words = this.body.split(" ");
+        for (String w : words) if (w.equals(word)) return true;
+        return false;
     }
 
 
