@@ -1,6 +1,7 @@
 package Part1;
 
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,10 +34,10 @@ public class Mailbox implements Iterable<Message>{
     public ArrayList<Message> getMailsFiltered(Predicate<Message> filter){ return (ArrayList<Message>) this.messages.stream().filter(filter).collect(Collectors.toList()); }
     public ArrayList<Message> getMailsSorted(Comparator<Message> comp){ return (ArrayList<Message>) this.messages.stream().sorted(comp).collect(Collectors.toList()); }
 
-    public void sendMail(String user, String subject, String body){
+    public void sendMail(String user, String subject, String body) throws IOException {
         this.store.sendMail(new Message(subject, body, this.user, user, Timestamp.valueOf(LocalDateTime.now())));
     }
-    public void updateMail () {
+    public void updateMail () throws IOException{
         this.messages.addAll(this.store.getMail(this.user));
     }
 

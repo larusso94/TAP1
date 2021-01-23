@@ -1,7 +1,6 @@
 package Part1;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 
 public class Message {
     private final String subject;

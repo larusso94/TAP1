@@ -1,5 +1,6 @@
 package Part1;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -62,7 +63,7 @@ public class CLI {
             System.out.println("Logged in successfully");
         }
     }
-    private static void send(String[] args){
+    private static void send(String[] args) throws IOException {
         if (args.length >= 4 && user != null){
             int i = 3;
             String body = args[i];
@@ -78,7 +79,7 @@ public class CLI {
             System.out.println("Message sent");
         }
     }
-    private static void update(){
+    private static void update() throws IOException {
         System.out.println("Uptdating mail...");
         system.getMailbox(user.getUsername()).updateMail();
     }
@@ -99,7 +100,7 @@ public class CLI {
         }
     }
 
-    private static boolean comand(String[] args){
+    private static boolean comand(String[] args) throws IOException {
         switch(args[0]){
             case "/help":
                 System.out.println("Avalible comands are:");
@@ -147,7 +148,7 @@ public class CLI {
         return false;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         boolean exit = false;
         String comand;
         while (!exit){

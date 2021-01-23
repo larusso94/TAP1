@@ -10,7 +10,7 @@ public class MailMem implements MailStore{
         this.messages = new Hashtable<>();
     }
 
-    public void sendMail(Message message){
+    public void sendMail(Message message) {
 
         if (!this.messages.containsKey(message.getReciever())){
             this.messages.put(message.getReciever(), new ArrayList<>());

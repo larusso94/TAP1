@@ -1,5 +1,6 @@
 package Part1;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.function.Predicate;
@@ -7,7 +8,7 @@ import java.util.function.Predicate;
 
 public class Test1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // Initialize the mail system with an in-memory mail store.
         MailSystem system1 = new MailSystem(new MailMem());
